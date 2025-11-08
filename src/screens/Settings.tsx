@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { TopMenu } from "../components/TopMenu";
+import App from "../../App";
 import { AppContainer } from "../components/AppContaner";
 
-export function Home() {
+export function Settings() {
   return (
     <AppContainer topMenu>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Bem-vindo à Home!</Text>
+        <Text>Configurações</Text>
       </View>
     </AppContainer>
   );

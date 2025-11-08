@@ -1,11 +1,11 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Login } from "../screens/Login";
-import { Home } from "../screens/Home";
+import { TabNavigator } from "./TabNavigator";
 
 export type RootStackParamList = {
   Login: undefined;
-  Home: undefined;
+  App: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -19,8 +19,8 @@ export default function AppNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Home"
-        component={Home}
+        name="App"
+        component={TabNavigator}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
