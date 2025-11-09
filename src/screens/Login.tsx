@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 import TextInput from "../components/TextInput";
 import LogoLogin from "../assets/logo_login.svg";
@@ -19,7 +19,12 @@ export function Login({ navigation }: Props) {
           <LogoLogin width={240} height={150} />
         </View>
         <View style={styles.titleContainer}>
-          <Ionicons name="lock-closed-outline" size={48} color="#00958B" />
+          <MaterialIcons
+            name="lock"
+            size={48}
+            color="#00958B"
+            style={{ marginRight: 6 }}
+          />
           <Text style={styles.title}>Take ID</Text>
         </View>
         <TextInput

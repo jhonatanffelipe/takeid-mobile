@@ -15,9 +15,15 @@ function EmployeeItemSkeleton() {
   return (
     <View style={styles.skeleton}>
       <Skeleton variant="circular" width={60} height={60} />
-      <View>
+      <View style={{ marginLeft: 10 }}>
         <Skeleton variant="rectangular" width={270} height={20} radius={4} />
-        <Skeleton variant="rectangular" width={270} height={20} radius={4} />
+        <Skeleton
+          variant="rectangular"
+          width={200}
+          height={15}
+          radius={4}
+          style={{ marginTop: 4 }}
+        />
       </View>
     </View>
   );
@@ -135,8 +141,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#fff",
     marginBottom: 16,
-    elevation: 2, // Android shadow
-    shadowColor: "#000", // iOS shadow
+    elevation: 2,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
