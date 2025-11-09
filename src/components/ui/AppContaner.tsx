@@ -8,19 +8,23 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TopMenu } from "./TopMenu";
+import { Header } from "./Header";
 
-type SAppContainerProps = ViewProps & {
+type AppContainerProps = ViewProps & {
   children: React.ReactNode;
-  topMenu?: boolean;
+  showHeader?: boolean;
+  disableMenuButton?: boolean;
+  disableGoBackButton?: boolean;
 };
 
 export function AppContainer({
-  topMenu,
+  showHeader = false,
+  disableMenuButton = false,
+  disableGoBackButton = false,
   children,
   style,
   ...rest
-}: SAppContainerProps) {
+}: AppContainerProps) {
   return (
     <View style={{ flex: 1 }}>
       <SafeAreaView
@@ -28,7 +32,12 @@ export function AppContainer({
         edges={["top", "bottom"]}
         {...rest}
       >
-        {topMenu && <TopMenu />}
+        {showHeader && (
+          <Header
+            disableGoBackButton={disableGoBackButton}
+            disableMenuButton={disableMenuButton}
+          />
+        )}
         <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : "height"}

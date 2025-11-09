@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { AppContainer } from "../components/AppContaner";
+import { AppContainer } from "../components/ui/AppContaner";
 import ButtonTouchableOpacity from "../components/ButtonTouchableOpacity";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -19,7 +19,7 @@ export function Settings() {
   };
 
   return (
-    <AppContainer topMenu>
+    <AppContainer showHeader disableGoBackButton disableMenuButton>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>Configurações</Text>
         <ButtonTouchableOpacity

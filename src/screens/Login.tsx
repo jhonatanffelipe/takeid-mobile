@@ -3,12 +3,11 @@ import { StyleSheet, View, Text } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 
-import { RootStackParamList } from "../navigation/AppNavigator";
 import TextInput from "../components/TextInput";
-
 import LogoLogin from "../assets/logo_login.svg";
 import ButtonTouchableOpacity from "../components/ButtonTouchableOpacity";
-import { AppContainer } from "../components/AppContaner";
+import { AppContainer } from "../components/ui/AppContaner";
+import { RootStackParamList } from "../types/RootStackParamList";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 

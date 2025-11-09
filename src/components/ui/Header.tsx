@@ -10,7 +10,15 @@ type TabParamList = {
   Configuracoes: undefined;
 };
 
-export function TopMenu() {
+type HeaderProps = {
+  disableMenuButton?: boolean;
+  disableGoBackButton?: boolean;
+};
+
+export function Header({
+  disableMenuButton,
+  disableGoBackButton,
+}: HeaderProps) {
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
 
   const handleGoBack = () => {
@@ -23,9 +31,13 @@ export function TopMenu() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.sideButton} onPress={handleGoBack}>
-        <Feather name="arrow-left" size={24} color="#00958B" />
-      </TouchableOpacity>
+      {disableGoBackButton ? (
+        <View style={{ width: 40 }} />
+      ) : (
+        <TouchableOpacity style={styles.sideButton} onPress={handleGoBack}>
+          <Feather name="arrow-left" size={24} color="#00958B" />
+        </TouchableOpacity>
+      )}
 
       <View style={styles.centerContent}>
         <MaterialIcons
@@ -37,14 +49,18 @@ export function TopMenu() {
         <Text style={styles.title}>Take Id</Text>
       </View>
 
-      <TouchableOpacity
-        style={styles.sideButton}
-        onPress={() => {
-          navigation.navigate("Configuracoes");
-        }}
-      >
-        <Feather name="menu" size={26} color="#00958B" />
-      </TouchableOpacity>
+      {!disableMenuButton ? (
+        <TouchableOpacity
+          style={styles.sideButton}
+          onPress={() => {
+            navigation.navigate("Configuracoes");
+          }}
+        >
+          <Feather name="menu" size={26} color="#00958B" />
+        </TouchableOpacity>
+      ) : (
+        <View style={{ width: 40 }} />
+      )}
     </View>
   );
 }

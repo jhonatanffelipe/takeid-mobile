@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { AppContainer } from "../components/AppContaner";
+import { AppContainer } from "../components/ui/AppContaner";
 import { Skeleton } from "../components/Skeleton";
 import { IEmployee } from "../interfaces/IEmployee";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -73,7 +73,7 @@ export function Employees() {
   const [loading, setLoading] = useState(false);
 
   return (
-    <AppContainer topMenu>
+    <AppContainer showHeader disableGoBackButton disableMenuButton>
       <View style={styles.content}>
         {loading
           ? Array(10)

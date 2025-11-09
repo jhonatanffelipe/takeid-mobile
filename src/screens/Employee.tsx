@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { RootStackParamList } from "../types/RootStackParamList";
 import { ISignature } from "../interfaces/ISignature";
 import signaturesData from "../interfaces/data/signatures";
-import { AppContainer } from "../components/AppContaner";
+import { AppContainer } from "../components/ui/AppContaner";
 import { ImagemBase64 } from "../components/ImagemBase64";
 
 type Props = {
@@ -23,7 +23,7 @@ export default function Employee({ route }: Props) {
   }, []);
 
   return (
-    <AppContainer topMenu>
+    <AppContainer showHeader disableMenuButton>
       <View style={{ padding: 16 }}>
         <Text style={{ fontSize: 18, fontWeight: "bold" }}>
           Assinaturas de {employeeId}: {name}
