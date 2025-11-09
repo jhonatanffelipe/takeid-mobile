@@ -62,6 +62,5 @@ const styles = StyleSheet.create({
   skeleton: {
     backgroundColor: "#e0e0e0",
     overflow: "hidden",
-    margin: 8,
   },
 });
