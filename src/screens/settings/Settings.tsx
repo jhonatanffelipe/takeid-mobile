@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { AppContainer } from "../components/ui/AppContaner";
-import ButtonTouchableOpacity from "../components/ButtonTouchableOpacity";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import { AppContainer } from "../../components/ui/AppContaner";
+import ButtonTouchableOpacity from "../../components/ButtonTouchableOpacity";
 
 type RootStackParamList = {
   Login: undefined;

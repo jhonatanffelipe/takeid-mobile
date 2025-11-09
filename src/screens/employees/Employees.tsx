@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { AppContainer } from "../components/ui/AppContaner";
-import { Skeleton } from "../components/Skeleton";
-import { IEmployee } from "../interfaces/IEmployee";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types/RootStackParamList";
 import { useNavigation } from "@react-navigation/native";
-import api from "../service/api";
-import { Alert } from "../components/Alert";
-import { TableNoContent } from "../components/table/TableNoContent";
-import { TableReload } from "../components/table/TableReload";
-import { getEmployees } from "../database/employees";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import api from "../../service/api";
+import { AppContainer } from "../../components/ui/AppContaner";
+import { Skeleton } from "../../components/Skeleton";
+import { IEmployee } from "../../interfaces/IEmployee";
+import { RootStackParamList } from "../../types/RootStackParamList";
+import { Alert } from "../../components/Alert";
+import { TableNoContent } from "../../components/table/TableNoContent";
+import { TableReload } from "../../components/table/TableReload";
+import { getEmployees } from "../../database/employees";
 
 function EmployeeItemSkeleton() {
   return (

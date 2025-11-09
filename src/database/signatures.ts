@@ -8,7 +8,9 @@ export async function saveSignature({
   image,
   synchronized,
 }: Omit<ISignature, "id">) {
-  await db.runAsync(`DELETE FROM signatures WHERE api_id = ?;`, [api_id]);
+  await db.runAsync(`DELETE FROM signatures WHERE api_id = ? AND api_id > 0;`, [
+    api_id,
+  ]);
 
   await db.runAsync(
     `INSERT INTO signatures (api_id, employee_id, signed_at, image, synchronized)
@@ -44,4 +46,8 @@ export async function clearSignaturesByEmployee(employee_id: number) {
   await db.runAsync("DELETE FROM signatures WHERE employee_id = ?;", [
     employee_id,
   ]);
+}
+
+export async function deleteSignature(id: number) {
+  await db.runAsync(`DELETE FROM signatures WHERE id = ?;`, [id]);
 }

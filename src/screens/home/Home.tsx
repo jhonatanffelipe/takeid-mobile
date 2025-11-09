@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { AppContainer } from "../components/ui/AppContaner";
-import ButtonTouchableOpacity from "../components/ButtonTouchableOpacity";
-import api from "../service/api";
-import { IEmployee } from "../interfaces/IEmployee";
-import { getEmployees, saveEmployee } from "../database/employees";
-import { Alert } from "../components/Alert";
-import { saveSignature } from "../database/signatures";
-import { ISignature } from "../interfaces/ISignature";
+import { AppContainer } from "../../components/ui/AppContaner";
+import ButtonTouchableOpacity from "../../components/ButtonTouchableOpacity";
+import api from "../../service/api";
+import { IEmployee } from "../../interfaces/IEmployee";
+import { saveEmployee } from "../../database/employees";
+import { Alert } from "../../components/Alert";
+import { saveSignature } from "../../database/signatures";
+import { ISignature } from "../../interfaces/ISignature";
 import dayjs from "dayjs";
 
 export function Home() {

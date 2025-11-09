@@ -5,9 +5,9 @@ import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
-import { Home } from "../screens/Home";
-import { Employees } from "../screens/Employees";
-import { Settings } from "../screens/Settings";
+import { Home } from "../screens/home/Home";
+import { Employees } from "../screens/employees/Employees";
+import { Settings } from "../screens/settings/Settings";
 const Tab = createBottomTabNavigator();
 
 type TabParamList = {
