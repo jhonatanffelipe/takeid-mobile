@@ -12,4 +12,15 @@ export async function initializeDatabase() {
       synchronized INTEGER DEFAULT 0
     );
   `);
+
+  await db.execAsync(`
+    CREATE TABLE IF NOT EXISTS signatures (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      api_id INTEGER,
+      employee_id INTEGER,
+      signed_at TEXT,
+      image TEXT,
+      synchronized INTEGER DEFAULT 0
+    );
+  `);
 }

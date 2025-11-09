@@ -12,6 +12,7 @@ import { Alert } from "../components/Alert";
 import { Skeleton } from "../components/Skeleton";
 import { TableNoContent } from "../components/table/TableNoContent";
 import { TableReload } from "../components/table/TableReload";
+import { getSignaturesByEmployee } from "../database/signatures";
 
 type Props = {
   route: RouteProp<RootStackParamList, "Employee">;
@@ -51,6 +52,16 @@ export default function Employee({ route }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const handleListLocalSignatures = async (employeeId: number) => {
+    await getSignaturesByEmployee(employeeId)
+      .then((data) => {
+        setSignatures(data);
+      })
+      .catch(() => {
+        setError("Erro ao carregar assinaturas locais.");
+      });
+  };
+
   const handleListSignatures = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -70,7 +81,7 @@ export default function Employee({ route }: Props) {
   }, [employeeId]);
 
   useEffect(() => {
-    handleListSignatures();
+    handleListLocalSignatures(employeeId);
   }, [employeeId]);
 
   return (
@@ -96,7 +107,7 @@ export default function Employee({ route }: Props) {
           <TableNoContent message="Nenhuma assinatura encontrada." />
         )}
       </View>
-      <TableReload onReload={handleListSignatures} />
+      <TableReload onReload={() => handleListLocalSignatures(employeeId)} />
     </AppContainer>
   );
 }

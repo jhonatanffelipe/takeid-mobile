@@ -6,6 +6,7 @@ import {
   TouchableOpacityProps,
   ViewStyle,
   TextStyle,
+  ActivityIndicator,
 } from "react-native";
 
 type ButtonColor = "primary" | "error" | "warning" | "alert" | "success";
@@ -16,6 +17,7 @@ interface ButtonTouchableOpacityProps extends TouchableOpacityProps {
   outline?: boolean;
   buttonStyle?: ViewStyle;
   textStyle?: TextStyle;
+  loading?: boolean;
 }
 
 const COLORS: Record<ButtonColor, string> = {
@@ -33,6 +35,7 @@ const ButtonTouchableOpacity: React.FC<ButtonTouchableOpacityProps> = ({
   buttonStyle,
   textStyle,
   style,
+  loading,
   ...rest
 }) => {
   const mainColor = COLORS[color] || COLORS.primary;
@@ -54,8 +57,17 @@ const ButtonTouchableOpacity: React.FC<ButtonTouchableOpacityProps> = ({
     textStyle,
   ];
   return (
-    <TouchableOpacity style={buttonStyles} activeOpacity={0.7} {...rest}>
-      <Text style={textStyles}>{title}</Text>
+    <TouchableOpacity
+      style={buttonStyles}
+      activeOpacity={0.7}
+      {...rest}
+      disabled={loading}
+    >
+      {loading ? (
+        <ActivityIndicator color="#fff" />
+      ) : (
+        <Text style={textStyles}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };
