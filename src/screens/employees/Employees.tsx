@@ -61,6 +61,8 @@ function EmployeeItem({ employee }: { employee: IEmployee }) {
 }
 
 export function Employees() {
+  const navigation = useNavigation<NavigationProp>();
+
   const [employees, setEmployees] = useState<IEmployee[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -101,9 +103,13 @@ export function Employees() {
   };
 
   useEffect(() => {
-    handleListLocalEmployees();
-    // handleListEmployees();
-  }, []);
+    const unsubscribe = navigation.addListener("focus", () => {
+      handleListLocalEmployees();
+      // handleListEmployees();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <AppContainer showHeader disableGoBackButton disableMenuButton>
