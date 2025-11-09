@@ -8,26 +8,54 @@ import {
   TextStyle,
 } from "react-native";
 
+type ButtonColor = "primary" | "error" | "warning" | "alert" | "success";
+
 interface ButtonTouchableOpacityProps extends TouchableOpacityProps {
   title: string;
+  color?: ButtonColor;
+  outline?: boolean;
   buttonStyle?: ViewStyle;
   textStyle?: TextStyle;
 }
 
+const COLORS: Record<ButtonColor, string> = {
+  primary: "#00958B",
+  error: "#e53935",
+  warning: "#fbc02d",
+  alert: "#ff9800",
+  success: "#43a047",
+};
+
 const ButtonTouchableOpacity: React.FC<ButtonTouchableOpacityProps> = ({
   title,
+  color = "primary",
+  outline = false,
   buttonStyle,
   textStyle,
   style,
   ...rest
 }) => {
+  const mainColor = COLORS[color] || COLORS.primary;
+  const buttonStyles = [
+    styles.button,
+    outline
+      ? {
+          backgroundColor: "transparent",
+          borderWidth: 2,
+          borderColor: mainColor,
+        }
+      : { backgroundColor: mainColor },
+    buttonStyle,
+    style,
+  ];
+  const textStyles = [
+    styles.text,
+    outline ? { color: mainColor } : {},
+    textStyle,
+  ];
   return (
-    <TouchableOpacity
-      style={[styles.button, buttonStyle, style]}
-      activeOpacity={0.7}
-      {...rest}
-    >
-      <Text style={[styles.text, textStyle]}>{title}</Text>
+    <TouchableOpacity style={buttonStyles} activeOpacity={0.7} {...rest}>
+      <Text style={textStyles}>{title}</Text>
     </TouchableOpacity>
   );
 };

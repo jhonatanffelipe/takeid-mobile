@@ -57,8 +57,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     justifyContent: "space-between",
     width: "100%",
-    position: "absolute",
-    top: 0,
     borderBottomColor: "#ddd",
     borderBottomWidth: 1,
     paddingHorizontal: 4,

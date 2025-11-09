@@ -28,6 +28,7 @@ export function AppContainer({
         edges={["top", "bottom"]}
         {...rest}
       >
+        {topMenu && <TopMenu />}
         <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -37,8 +38,7 @@ export function AppContainer({
             contentContainerStyle={{ flexGrow: 1 }}
             keyboardShouldPersistTaps="handled"
           >
-            {topMenu && <TopMenu />}
-            {children}
+            <View style={styles.content}>{children}</View>
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
@@ -50,5 +50,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  content: {
+    flex: 1,
   },
 });

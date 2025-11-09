@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "takeid-mobile",
-    "slug": "takeid-mobile",
+    "name": "Take ID",
+    "slug": "TakeID",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,13 +21,19 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.jhonatanffelipe.TakeID"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "cf00055c-3e54-4568-93bc-c680dd6b1c57"
+      }
+    }
   }
 }

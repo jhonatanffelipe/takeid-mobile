@@ -26,9 +26,13 @@ export function TabNavigator() {
         tabBarIcon: ({ color, size }) => {
           let iconName: React.ComponentProps<typeof Ionicons>["name"];
 
-          if (route.name === "Dashboard") iconName = "home";
-          else if (route.name === "Colaboradores") iconName = "people";
-          else iconName = "settings";
+          if (route.name === "Dashboard") {
+            iconName = "home";
+          } else if (route.name === "Colaboradores") {
+            iconName = "people";
+          } else {
+            iconName = "settings";
+          }
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },

@@ -1,13 +1,33 @@
 import React from "react";
 import { View, Text } from "react-native";
-import App from "../../App";
 import { AppContainer } from "../components/AppContaner";
+import ButtonTouchableOpacity from "../components/ButtonTouchableOpacity";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+  Login: undefined;
+  // add other routes here if needed
+};
 
 export function Settings() {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const handleLogout = () => {
+    navigation.navigate("Login");
+  };
+
   return (
     <AppContainer topMenu>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>Configurações</Text>
+        <ButtonTouchableOpacity
+          title="Sair"
+          color="error"
+          outline
+          onPress={handleLogout}
+        />
       </View>
     </AppContainer>
   );
