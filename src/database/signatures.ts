@@ -21,7 +21,7 @@ export async function getSignaturesByEmployee(
   employee_id: number
 ): Promise<ISignature[]> {
   const result = await db.getAllAsync(
-    `SELECT * FROM signatures WHERE employee_id = ? ORDER BY id ASC;`,
+    `SELECT * FROM signatures WHERE employee_id = ? ORDER BY signed_at DESC;`,
     [employee_id]
   );
   return result as ISignature[];

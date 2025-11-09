@@ -53,12 +53,18 @@ export default function Employee({ route }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   const handleListLocalSignatures = async (employeeId: number) => {
+    setLoading(true);
+    setError(null);
+    setSignatures([]);
     await getSignaturesByEmployee(employeeId)
       .then((data) => {
         setSignatures(data);
       })
       .catch(() => {
         setError("Erro ao carregar assinaturas locais.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 

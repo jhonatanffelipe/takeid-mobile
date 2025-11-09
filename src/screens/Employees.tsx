@@ -66,12 +66,18 @@ export function Employees() {
   const [loading, setLoading] = useState(false);
 
   const handleListLocalEmployees = async () => {
+    setLoading(true);
+    setError(null);
+    setEmployees([]);
     await getEmployees()
       .then((localEmployees) => {
         setEmployees(localEmployees);
       })
       .catch((error) => {
         setError("Erro ao carregar funcionários locais: " + error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -96,7 +102,7 @@ export function Employees() {
   useEffect(() => {
     handleListLocalEmployees();
     // handleListEmployees();
-  }, [handleListLocalEmployees]);
+  }, []);
 
   return (
     <AppContainer showHeader disableGoBackButton disableMenuButton>
