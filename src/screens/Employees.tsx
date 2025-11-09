@@ -10,6 +10,7 @@ import api from "../service/api";
 import { Alert } from "../components/Alert";
 import { TableNoContent } from "../components/table/TableNoContent";
 import { TableReload } from "../components/table/TableReload";
+import { getEmployees } from "../database/employees";
 
 function EmployeeItemSkeleton() {
   return (
@@ -50,7 +51,7 @@ function EmployeeItem({ employee }: { employee: IEmployee }) {
       <View style={styles.avatar} />
       <View>
         <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-          {employee.name}
+          {employee.id} - {employee.name}
         </Text>
         <Text style={{ fontSize: 14, color: "#666" }}>{employee.position}</Text>
       </View>
@@ -63,6 +64,16 @@ export function Employees() {
   const [error, setError] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
+
+  const handleListLocalEmployees = async () => {
+    await getEmployees()
+      .then((localEmployees) => {
+        setEmployees(localEmployees);
+      })
+      .catch((error) => {
+        setError("Erro ao carregar funcionários locais: " + error);
+      });
+  };
 
   const handleListEmployees = async () => {
     setLoading(true);
@@ -83,8 +94,9 @@ export function Employees() {
   };
 
   useEffect(() => {
-    handleListEmployees();
-  }, []);
+    handleListLocalEmployees();
+    // handleListEmployees();
+  }, [handleListLocalEmployees]);
 
   return (
     <AppContainer showHeader disableGoBackButton disableMenuButton>
@@ -106,7 +118,7 @@ export function Employees() {
           <TableNoContent message="Nenhum funcionário encontrado." />
         )}
       </View>
-      <TableReload onReload={handleListEmployees} />
+      <TableReload onReload={handleListLocalEmployees} />
     </AppContainer>
   );
 }

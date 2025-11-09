@@ -39,11 +39,9 @@ Crie um arquivo `.env` na raiz do projeto com as variáveis de ambiente necessá
 
 ```env
 EXPO_PUBLIC_API_URL_LOCAL=http://localhost:3007
-EXPO_PUBLIC_API_URL_ANDROID=http://192.168.18.47:3007
 ```
 
-- `EXPO_PUBLIC_API_URL_LOCAL`: URL do backend para uso local (emulador iOS ou web)
-- `EXPO_PUBLIC_API_URL_ANDROID`: URL do backend para uso em dispositivos/emuladores Android (ajuste o IP para o da sua máquina na rede)
+- `EXPO_PUBLIC_API_URL_LOCAL`: URL do backend
 
 Copie o arquivo `.env-modelo` e renomeie para `.env` e ajuste os valores conforme necessário.
 
