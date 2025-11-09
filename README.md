@@ -1,0 +1,55 @@
+# 📱 TakeID Mobile
+
+## Como rodar o projeto
+
+### Pré-requisitos
+- **Node.js**: Versão **v24.11.0** (obrigatório)
+- **npm** ou **yarn**
+- **Expo**: Usar via `npx expo`
+- Backend rodando: [https://github.com/jhonatanffelipe/takeid-backend.git](https://github.com/jhonatanffelipe/takeid-backend.git)
+
+> ⚠️ Certifique-se de que o backend está rodando antes de iniciar o app mobile.
+
+### Passos para rodar
+1. Clone este repositório e o backend:
+   ```bash
+   git clone https://github.com/jhonatanffelipe/takeid-mobile.git
+   git clone https://github.com/jhonatanffelipe/takeid-backend.git
+   ```
+2. Instale as dependências:
+   ```bash
+   cd takeid-mobile
+   npm install
+   ```
+3. Não é necessário instalar o Expo CLI globalmente. Use o Expo via npx:
+   ```bash
+   npx expo start
+   ```
+4. Inicie o backend conforme instruções do repositório backend.
+5. Inicie o app mobile:
+   ```bash
+   npx expo start
+   ```
+6. Use o app no seu dispositivo físico (recomendado) ou emulador. Escaneie o QR code com o app Expo Go.
+
+
+
+### Configuração do .env
+Crie um arquivo `.env` na raiz do projeto com as variáveis de ambiente necessárias para o funcionamento do app. Use como base o arquivo `.env-modelo` já presente no projeto:
+
+```env
+EXPO_PUBLIC_API_URL_LOCAL=http://localhost:3007
+EXPO_PUBLIC_API_URL_ANDROID=http://192.168.18.47:3007
+```
+
+- `EXPO_PUBLIC_API_URL_LOCAL`: URL do backend para uso local (emulador iOS ou web)
+- `EXPO_PUBLIC_API_URL_ANDROID`: URL do backend para uso em dispositivos/emuladores Android (ajuste o IP para o da sua máquina na rede)
+
+Copie o arquivo `.env-modelo` e renomeie para `.env` e ajuste os valores conforme necessário.
+
+### Observações
+- Certifique-se de que o backend está acessível pelo endereço configurado no arquivo `src/service/api.ts` ou pela variável de ambiente do `.env`.
+- Caso utilize emulador, ajuste o IP do backend para o IP local da sua máquina.
+
+---
+Desenvolvido por Jhonatan Felipe
