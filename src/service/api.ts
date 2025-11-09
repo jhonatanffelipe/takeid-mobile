@@ -12,6 +12,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
     "ngrok-skip-browser-warning": "true",
+    "User-Agent": "TakeID/1.0.0",
   },
 });
 
