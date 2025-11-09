@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AppContainer } from "../components/ui/AppContaner";
 import { Skeleton } from "../components/Skeleton";
@@ -6,6 +6,10 @@ import { IEmployee } from "../interfaces/IEmployee";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/RootStackParamList";
 import { useNavigation } from "@react-navigation/native";
+import api from "../service/api";
+import { Alert } from "../components/Alert";
+import { TableNoContent } from "../components/table/TableNoContent";
+import { TableReload } from "../components/table/TableReload";
 
 function EmployeeItemSkeleton() {
   return (
@@ -49,40 +53,54 @@ function EmployeeItem({ employee }: { employee: IEmployee }) {
 }
 
 export function Employees() {
-  const [employees, setEmployees] = useState<IEmployee[]>([
-    {
-      id: 1,
-      name: "John Doe",
-      position: "Software Engineer",
-      email: "john.doe@example.com",
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      position: "Product Manager",
-      email: "jane.smith@example.com",
-    },
-    {
-      id: 3,
-      name: "Alice Johnson",
-      position: "UX Designer",
-      email: "alice.johnson@example.com",
-    },
-  ]);
+  const [employees, setEmployees] = useState<IEmployee[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
 
+  const handleListEmployees = async () => {
+    setLoading(true);
+    setError(null);
+    setEmployees([]);
+
+    await api
+      .get("/employees")
+      .then((response) => {
+        setEmployees(response.data);
+      })
+      .catch(() => {
+        setError("Erro ao carregar funcionários.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    handleListEmployees();
+  }, []);
+
   return (
     <AppContainer showHeader disableGoBackButton disableMenuButton>
+      {error && (
+        <Alert severity="error" closeAlert={() => setError(null)}>
+          {error}
+        </Alert>
+      )}
       <View style={styles.content}>
-        {loading
-          ? Array(10)
-              .fill(0)
-              .map((_, index) => <EmployeeItemSkeleton key={index} />)
-          : employees.map((employee) => (
-              <EmployeeItem key={employee.id} employee={employee} />
-            ))}
+        {loading ? (
+          Array(3)
+            .fill(0)
+            .map((_, index) => <EmployeeItemSkeleton key={index} />)
+        ) : employees.length > 0 ? (
+          employees.map((employee) => (
+            <EmployeeItem key={employee.id} employee={employee} />
+          ))
+        ) : (
+          <TableNoContent message="Nenhum funcionário encontrado." />
+        )}
       </View>
+      <TableReload onReload={handleListEmployees} />
     </AppContainer>
   );
 }
