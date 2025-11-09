@@ -2,11 +2,8 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Login } from "../screens/Login";
 import { TabNavigator } from "./TabNavigator";
-
-export type RootStackParamList = {
-  Login: undefined;
-  App: undefined;
-};
+import { RootStackParamList } from "../types/RootStackParamList";
+import Employee from "../screens/Employee";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -21,6 +18,11 @@ export default function AppNavigator() {
       <Stack.Screen
         name="App"
         component={TabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Employee"
+        component={Employee}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
