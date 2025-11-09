@@ -74,7 +74,7 @@ export default function Employee({ route }: Props) {
   }, [employeeId]);
 
   return (
-    <AppContainer showHeader disableMenuButton>
+    <AppContainer showHeader disableMenuButton handleAddItem={() => {}}>
       {error && (
         <Alert severity="error" closeAlert={() => setError(null)}>
           {error}

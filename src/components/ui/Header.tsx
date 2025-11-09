@@ -13,11 +13,13 @@ type TabParamList = {
 type HeaderProps = {
   disableMenuButton?: boolean;
   disableGoBackButton?: boolean;
+  handleAddItem?: () => void;
 };
 
 export function Header({
   disableMenuButton,
   disableGoBackButton,
+  handleAddItem,
 }: HeaderProps) {
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
 
@@ -57,6 +59,10 @@ export function Header({
           }}
         >
           <Feather name="menu" size={26} color="#00958B" />
+        </TouchableOpacity>
+      ) : handleAddItem ? (
+        <TouchableOpacity style={styles.sideButton} onPress={handleAddItem}>
+          <Feather name="plus" size={26} color="#00958B" />
         </TouchableOpacity>
       ) : (
         <View style={{ width: 40 }} />

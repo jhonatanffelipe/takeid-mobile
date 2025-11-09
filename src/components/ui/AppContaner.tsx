@@ -15,6 +15,7 @@ type AppContainerProps = ViewProps & {
   showHeader?: boolean;
   disableMenuButton?: boolean;
   disableGoBackButton?: boolean;
+  handleAddItem?: () => void;
 };
 
 export function AppContainer({
@@ -23,6 +24,7 @@ export function AppContainer({
   disableGoBackButton = false,
   children,
   style,
+  handleAddItem,
   ...rest
 }: AppContainerProps) {
   return (
@@ -36,6 +38,7 @@ export function AppContainer({
           <Header
             disableGoBackButton={disableGoBackButton}
             disableMenuButton={disableMenuButton}
+            handleAddItem={handleAddItem}
           />
         )}
         <KeyboardAvoidingView
