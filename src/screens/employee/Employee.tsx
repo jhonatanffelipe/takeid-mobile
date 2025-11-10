@@ -1,84 +1,34 @@
-import { use, useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Alert as RNAlert } from "react-native";
 import { RouteProp } from "@react-navigation/native";
-import dayjs from "dayjs";
 import * as ImagePicker from "expo-image-picker";
 
 import { RootStackParamList } from "../../types/RootStackParamList";
 import { ISignature } from "../../interfaces/ISignature";
 import { AppContainer } from "../../components/ui/AppContaner";
-import { ImagemBase64 } from "../../components/ImagemBase64";
-import api from "../../service/api";
 import { Alert } from "../../components/Alert";
-import { Skeleton } from "../../components/Skeleton";
 import { TableNoContent } from "../../components/table/TableNoContent";
 import { TableReload } from "../../components/table/TableReload";
 import {
-  deleteSignature,
   getSignaturesByEmployee,
   saveSignature,
 } from "../../database/signatures";
-import { MaterialIcons } from "@expo/vector-icons";
+import { SelectImageSourceModal } from "./components/SelectImageSourceModal";
+import { SignatureItemSkeleton } from "./components/SignatureItemSkeleton";
+import { SignatureItem } from "./components/SignatureItem";
+import { ConfirmationModal } from "../../components/ConfirmationModal";
 
 type Props = {
   route: RouteProp<RootStackParamList, "Employee">;
 };
 
-function SignatureItemSkeleton() {
-  return (
-    <View style={styles.signatureItem}>
-      <View style={styles.signatureItemImage}>
-        <Skeleton variant="rectangular" width={100} height={100} radius={4} />
-      </View>
-      <View style={styles.signatureItemContent}>
-        <Skeleton variant="rectangular" width={200} height={20} radius={4} />
-        <Skeleton
-          variant="rectangular"
-          width={150}
-          height={15}
-          radius={4}
-          style={{ marginTop: 16 }}
-        />
-      </View>
-    </View>
-  );
-}
-
-interface SignatureItemProps {
-  signature: ISignature;
-  onDelete: (id: number) => Promise<void>;
-}
-
-function SignatureItem({ signature, onDelete }: SignatureItemProps) {
-  return (
-    <View style={styles.signatureItem}>
-      <View style={styles.signatureItemImage}>
-        <ImagemBase64 base64={signature.image} />
-      </View>
-      <View style={styles.signatureItemContent}>
-        <Text style={styles.signatureDate}>
-          {dayjs(signature.signed_at).format("DD/MM/YYYY HH:mm")}
-        </Text>
-        <Text>
-          {signature.synchronized ? "Sincronizado" : "Não sincronizado"}
-        </Text>
-      </View>
-      <View style={styles.signatureItemDeleteIcon}>
-        <MaterialIcons
-          name="delete"
-          size={24}
-          color="red"
-          onPress={() => onDelete(signature.id)}
-        />
-      </View>
-    </View>
-  );
-}
-
-export default function Employee({ route }: Props) {
+export function Employee({ route }: Props) {
   const { employeeId, name } = route.params;
-
   const [signatures, setSignatures] = useState<ISignature[]>([]);
+  const [selectImageModalVisible, setSelectImageModalVisible] = useState(false);
+  const [showSuccessSignatureModal, setShowSuccessSignatureModal] =
+    useState(false);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -97,21 +47,6 @@ export default function Employee({ route }: Props) {
     }
   };
 
-  const handleListSignatures = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    setSignatures([]);
-
-    try {
-      const response = await api.get(`/signatures/all/${employeeId}`);
-      setSignatures(response.data);
-    } catch {
-      setError("Erro ao carregar assinaturas.");
-    } finally {
-      setLoading(false);
-    }
-  }, [employeeId]);
-
   async function requestPermissions() {
     const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
     const mediaStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -129,23 +64,7 @@ export default function Employee({ route }: Props) {
   async function handleAddSignature() {
     const hasPermission = await requestPermissions();
     if (!hasPermission) return;
-
-    RNAlert.alert(
-      "Escolher Imagem",
-      "Selecione a origem da assinatura",
-      [
-        {
-          text: "📸 Tirar Foto",
-          onPress: async () => await pickImage(true),
-        },
-        {
-          text: "🖼️ Galeria",
-          onPress: async () => await pickImage(false),
-        },
-        { text: "Cancelar", style: "cancel" },
-      ],
-      { cancelable: true }
-    );
+    setSelectImageModalVisible(true);
   }
 
   async function pickImage(fromCamera: boolean) {
@@ -168,33 +87,9 @@ export default function Employee({ route }: Props) {
       });
 
       await handleListLocalSignatures(employeeId);
-      RNAlert.alert("Sucesso", "Assinatura salva localmente!");
+      setShowSuccessSignatureModal(true);
     }
   }
-
-  const handleDelete = async (id: number, employeeId: number) => {
-    RNAlert.alert(
-      "Excluir assinatura",
-      "Tem certeza que deseja excluir esta assinatura?",
-      [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Excluir",
-          style: "destructive",
-          onPress: async () => {
-            await deleteSignature(id)
-              .then(async () => {
-                await handleListLocalSignatures(employeeId);
-                RNAlert.alert("Sucesso", "Assinatura excluída com sucesso!");
-              })
-              .catch(() => {
-                RNAlert.alert("Erro", "Não foi possível excluir a assinatura.");
-              });
-          },
-        },
-      ]
-    );
-  };
 
   useEffect(() => {
     handleListLocalSignatures(employeeId);
@@ -226,9 +121,7 @@ export default function Employee({ route }: Props) {
             <SignatureItem
               key={signature.id}
               signature={signature}
-              onDelete={async () =>
-                await handleDelete(signature.id, signature.employee_id)
-              }
+              listSignatures={handleListLocalSignatures}
             />
           ))
         ) : (
@@ -237,6 +130,24 @@ export default function Employee({ route }: Props) {
       </View>
 
       <TableReload onReload={() => handleListLocalSignatures(employeeId)} />
+      <SelectImageSourceModal
+        visible={selectImageModalVisible}
+        onCancel={() => setSelectImageModalVisible(false)}
+        onPickCamera={async () => {
+          setSelectImageModalVisible(false);
+          await pickImage(true);
+        }}
+        onPickGallery={async () => {
+          setSelectImageModalVisible(false);
+          await pickImage(false);
+        }}
+      />
+      <ConfirmationModal
+        visible={showSuccessSignatureModal}
+        title="Assinatura Adicionada!"
+        message="A assinatura foi adicionada com sucesso."
+        onConfirm={() => setShowSuccessSignatureModal(false)}
+      />
     </AppContainer>
   );
 }
@@ -252,25 +163,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 16,
     textAlign: "center",
-  },
-  signatureItem: {
-    marginTop: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 12,
-  },
-  signatureDate: {
-    fontWeight: "bold",
-    fontSize: 16,
-    marginBottom: 16,
-  },
-  signatureItemImage: {},
-  signatureItemDeleteIcon: {
-    height: "100%",
-    alignItems: "flex-end",
-  },
-  signatureItemContent: {
-    flex: 1,
   },
 });

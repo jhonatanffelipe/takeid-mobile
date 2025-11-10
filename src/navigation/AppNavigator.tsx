@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Login } from "../screens/login/Login";
 import { TabNavigator } from "./TabNavigator";
 import { RootStackParamList } from "../types/RootStackParamList";
-import Employee from "../screens/employee/Employee";
+import { Employee } from "../screens/employee/Employee";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

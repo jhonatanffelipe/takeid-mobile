@@ -13,7 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Este app precisa acessar a câmera para capturar fotos de assinaturas.",
+        "NSPhotoLibraryUsageDescription": "Este app precisa acessar a galeria para selecionar imagens de assinaturas."
+      }
     },
     "android": {
       "adaptiveIcon": {

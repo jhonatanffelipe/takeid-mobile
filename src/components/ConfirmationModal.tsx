@@ -5,7 +5,7 @@ interface ConfirmationModalProps {
   visible: boolean;
   title?: string;
   message: string;
-  onCancel: () => void;
+  onCancel?: () => void;
   confirmText?: string;
   onConfirm?: () => void;
 }
@@ -29,12 +29,25 @@ export function ConfirmationModal({
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.message}>{message}</Text>
           <View style={{ flexDirection: "row", gap: 10 }}>
-            <TouchableOpacity style={styles.button} onPress={onCancel}>
-              <Text style={styles.buttonTextCancel}>Cancelar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={onConfirm}>
-              <Text style={styles.buttonTextConfirm}>Confirmar</Text>
-            </TouchableOpacity>
+            {onCancel && (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={onCancel}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.buttonTextCancel}>Cancelar</Text>
+              </TouchableOpacity>
+            )}
+
+            {onConfirm && (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={onConfirm}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.buttonTextConfirm}>Confirmar</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>
@@ -56,6 +69,7 @@ const styles = StyleSheet.create({
     minWidth: 280,
     alignItems: "center",
     elevation: 4,
+    maxWidth: "80%",
   },
   title: {
     fontSize: 18,
