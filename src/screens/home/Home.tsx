@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert as RNAlert } from "react-native";
 import { AppContainer } from "../../components/ui/AppContaner";
 import ButtonTouchableOpacity from "../../components/ButtonTouchableOpacity";
 import api from "../../service/api";
@@ -10,8 +10,12 @@ import { saveSignature } from "../../database/signatures";
 import { ISignature } from "../../interfaces/ISignature";
 import dayjs from "dayjs";
 
+import { ConfirmationModal } from "../../components/ConfirmationModal";
+
 export function Home() {
   const [employees, setEmployees] = React.useState<IEmployee[]>([]);
+  const [showConfirmationModal, setShowConfirmationModal] =
+    React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -97,9 +101,29 @@ export function Home() {
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         {error && <Alert severity="error">{error}</Alert>}
         <ButtonTouchableOpacity
+          onPress={() => setShowConfirmationModal(true)}
+          title="Abrir Alert"
+          color="success"
+        />
+
+        <ButtonTouchableOpacity
           onPress={handleSyncEmployees}
           title="Sincronizar dados"
           loading={loading}
+        />
+
+        <ConfirmationModal
+          visible={showConfirmationModal}
+          title="Título do Alert"
+          message="Esta é a mensagem do Alert."
+          onCancel={() => {
+            setShowConfirmationModal(false);
+            console.log("Cancelar Pressed");
+          }}
+          onConfirm={() => {
+            setShowConfirmationModal(false);
+            console.log("Confirmar Pressed");
+          }}
         />
 
         <Text style={{ marginTop: 20, fontSize: 16, fontWeight: "bold" }}>
