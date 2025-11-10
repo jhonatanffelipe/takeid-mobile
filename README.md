@@ -35,15 +35,18 @@
 
 
 ### Configuração do .env
+
 Crie um arquivo `.env` na raiz do projeto com as variáveis de ambiente necessárias para o funcionamento do app. Use como base o arquivo `.env-modelo` já presente no projeto:
 
 ```env
-EXPO_PUBLIC_API_URL_LOCAL=http://localhost:3007
+# Use a URL gerada pelo ngrok após rodar o comando:
+# ngrok http 3007
+EXPO_PUBLIC_API_URL_LOCAL=https://SUA-URL-NGROK.ngrok-free.app
 ```
 
-- `EXPO_PUBLIC_API_URL_LOCAL`: URL do backend
+> Substitua `https://SUA-URL-NGROK.ngrok-free.app` pela URL pública exibida pelo ngrok. Caso esteja rodando localmente sem ngrok, pode usar `http://localhost:3007`.
 
-Copie o arquivo `.env-modelo` e renomeie para `.env` e ajuste os valores conforme necessário.
+- `EXPO_PUBLIC_API_URL_LOCAL`: URL do backend
 
 ### Observações
 - Certifique-se de que o backend está acessível pelo endereço configurado no arquivo `src/service/api.ts` ou pela variável de ambiente do `.env`.
